@@ -1,6 +1,5 @@
 const CACHE_NAME = 'portfolio-cache-v1';
 const urlsToCache = [
-  '',
   'index.html',
   'styles.css',
   'script.js',
@@ -8,8 +7,10 @@ const urlsToCache = [
   'img/icon_512.png',
   'img/taskifyAPP.png',
   'img/image-removebg-preview.png',
-  'offline.html' // Archivo predeterminado para modo offline
+  'offline.html'
 ];
+
+
 
 // Instalar el Service Worker
 self.addEventListener('install', (event) => {
