@@ -10,8 +10,6 @@ const urlsToCache = [
   'offline.html'
 ];
 
-
-
 // Instalar el Service Worker
 self.addEventListener('install', (event) => {
   console.log('Service Worker: Instalando...');
@@ -32,35 +30,39 @@ self.addEventListener('activate', (event) => {
   console.log('Service Worker: Activado');
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => 
-        Promise.all(
-          cacheNames.map((cacheName) => {
-            if (!cacheWhitelist.includes(cacheName)) {
-              console.log('Service Worker: Eliminando caché antiguo', cacheName);
-              return caches.delete(cacheName);
-            }
-          })
-        )
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames.map((cacheName) => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            console.log('Service Worker: Eliminando caché antiguo', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
       )
+    )
   );
 });
+
 
 // Interceptar las solicitudes y servir desde el caché
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
-        // Si está en caché, devolverlo
         if (cachedResponse) {
           return cachedResponse;
         }
-        // Si no está en caché, intentar obtenerlo de la red
-        return fetch(event.request).catch(() => {
-          // Si falla la red, devolver archivo offline para navegaciones
+
+        return fetch(event.request).catch((error) => {
+          console.error('Error al realizar fetch:', error);
+
+          // Si es una navegación y la red falla, devuelve el archivo offline
           if (event.request.mode === 'navigate') {
-            return caches.match('./offline.html');
+            return caches.match('offline.html');
           }
+
+          // Para otros casos, devuelve una respuesta de error
+          return new Response('Recurso no disponible', { status: 503 });
         });
       })
   );
