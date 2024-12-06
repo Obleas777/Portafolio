@@ -3,10 +3,19 @@ const urlsToCache = [
   'index.html',
   'styles.css',
   'script.js',
+  'animcaciones.js',
   'img/icon_192.png',
   'img/icon_512.png',
   'img/taskifyAPP.png',
   'img/image-removebg-preview.png',
+  'img/candys.png',
+  'img/logs.png',
+  'img/motoko1.png',
+  'img/motoko2.png',
+  'img/pasteleria.png',
+  'img/screenshot1.png',
+  'img/screenshot2.png',
+  'img/sopiletras.png',
   'offline.html'
 ];
 
