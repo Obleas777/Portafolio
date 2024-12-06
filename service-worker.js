@@ -1,14 +1,14 @@
 const CACHE_NAME = 'portfolio-cache-v1';
 const urlsToCache = [
-  './',
-  './index.html',
-  './styles.css',
-  './script.js',
-  './img/icon_192.png',
-  './img/icon_512.png',
-  './img/taskifyAPP.png',
-  './image-removebg-preview.png',
-  './offline.html' // Archivo predeterminado para modo offline
+  '',
+  'index.html',
+  'styles.css',
+  'script.js',
+  'img/icon_192.png',
+  'img/icon_512.png',
+  'img/taskifyAPP.png',
+  'img/image-removebg-preview.png',
+  'offline.html' // Archivo predeterminado para modo offline
 ];
 
 // Instalar el Service Worker
