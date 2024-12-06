@@ -51,33 +51,15 @@ self.addEventListener('activate', (event) => {
     )
   );
 });
-
-// Interceptar las solicitudes y servir desde el caché
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((cachedResponse) => {
-        // Devuelve el recurso desde el caché si está disponible
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        // Si no está en el caché, intenta obtenerlo de la red
-        return fetch(event.request).catch((error) => {
-          console.error('Error al realizar fetch:', error);
-
-          // Si falla y es una navegación, devuelve el archivo offline
-          if (event.request.mode === 'navigate') {
-            return caches.match('offline.html');
+self.addEventListener('fetch', e =>{
+  e.respondWith(
+      caches.match(e.request)
+      .then(res =>{
+          if(res)
+          {
+              return res
           }
-
-          // Respuesta de error para otros tipos de solicitudes
-          return new Response('Recurso no disponible', {
-            status: 503,
-            statusText: 'Servicio no disponible',
-            headers: { 'Content-Type': 'text/plain' },
-          });
-        });
+          return fetch(e.request)
       })
-  );
-});
+  )
+})
