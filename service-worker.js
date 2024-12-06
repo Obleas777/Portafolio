@@ -3,7 +3,7 @@ const urlsToCache = [
   'index.html',
   'styles.css',
   'script.js',
-  'animcaciones.js',
+  'animaciones.js', // Corregido el nombre del archivo
   'img/icon_192.png',
   'img/icon_512.png',
   'img/taskifyAPP.png',
@@ -52,26 +52,31 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-
 // Interceptar las solicitudes y servir desde el caché
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
+        // Devuelve el recurso desde el caché si está disponible
         if (cachedResponse) {
           return cachedResponse;
         }
 
+        // Si no está en el caché, intenta obtenerlo de la red
         return fetch(event.request).catch((error) => {
           console.error('Error al realizar fetch:', error);
 
-          // Si es una navegación y la red falla, devuelve el archivo offline
+          // Si falla y es una navegación, devuelve el archivo offline
           if (event.request.mode === 'navigate') {
             return caches.match('offline.html');
           }
 
-          // Para otros casos, devuelve una respuesta de error
-          return new Response('Recurso no disponible', { status: 503 });
+          // Respuesta de error para otros tipos de solicitudes
+          return new Response('Recurso no disponible', {
+            status: 503,
+            statusText: 'Servicio no disponible',
+            headers: { 'Content-Type': 'text/plain' },
+          });
         });
       })
   );
