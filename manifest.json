@@ -3,10 +3,11 @@
   "short_name": "PWA",
   "description": "Esta es mi primer PWA",
   "display": "standalone",
-  "start_url": "./?_source=web_app_manifest",
+  "start_url": "/?_source=web_app_manifest",
   "background_color": "#0969ff",
   "theme_color": "#0969ff",
   "orientation": "portrait",
+  "scope":"/",
   "lang": "es-MX",
   "icons": [
     {
